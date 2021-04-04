@@ -1,0 +1,18 @@
+---
+layout: default
+---
+
+<h1>I'm the '{{ page.name }}' process</h1>
+<h2>{{ page.description }}</h2>
+
+<h2>I have these phases:</h2>
+<p>{{page.pk}}</p>
+
+{% assign phases = site.phases %}
+{% for p in phases %}
+  <h2>
+    <a href="{{ p.url }}">
+      {{ p.name }}
+    </a>
+  </h2>
+{% endfor %}

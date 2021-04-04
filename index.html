@@ -1,0 +1,155 @@
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: default
+---
+
+<div class="container">
+  <div>
+    {% assign process = site.process | first %}
+    <h2>{{ process.name }}</h2>
+
+    <p>
+      {{ process.description }}
+    </p>
+  </div>
+  <div id="index-menu">
+    <ul class="auto-grid">
+      <li>
+        <a href="/phase">
+          <div class="menu-item">
+            <div class="text-container">
+              <div class="menu-text">
+                Phases
+              </div>
+              <div class="menu-count">
+                {{site.phases.size}}
+              </div>
+            </div>
+            <div class="menu-icon">
+              <i class="fa fa-calendar fa-3x"></i>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/activity">
+          <div class="menu-item">
+            <div class="text-container">
+              <div class="menu-text">
+                Activities
+              </div>
+              <div class="nav-text">
+                {{site.activities.size}}
+              </div>
+            </div>
+            <div class="menu-icon">
+              <i class="fa fa-bolt fa-3x"></i>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/artifact">
+          <div class="menu-item">
+            <div class="text-container">
+              <div class="menu-text">
+                Artifacts
+              </div>
+              <div class="nav-text">
+                {{site.artifacts.size}}
+              </div>
+            </div>
+            <div class="menu-icon">
+              <i class="fa fa-trophy fa-3x"></i>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/tool">
+          <div class="menu-item">
+            <div class="text-container">
+              <div class="menu-text">
+                Tools
+              </div>
+              <div class="nav-text">
+                {{site.tools.size}}
+              </div>
+            </div>
+            <div class="menu-icon">
+              <i class="fa fa-gavel fa-3x"></i>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/guideline">
+          <div class="menu-item">
+            <div class="text-container">
+              <div class="menu-text">
+                Guidelines
+              </div>
+              <div class="nav-text">
+                {{site.guidelines.size}}
+              </div>
+            </div>
+            <div class="menu-icon">
+              <i class="fa fa-list-ol fa-3x"></i>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/role">
+          <div class="menu-item">
+            <div class="text-container">
+              <div class="menu-text">
+                Roles
+              </div>
+              <div class="nav-text">
+                {{site.roles.size}}
+              </div>
+            </div>
+            <div class="menu-icon">
+              <i class="fa fa-user fa-3x"></i>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/template">
+          <div class="menu-item">
+            <div class="text-container">
+              <div class="menu-text">
+                Templates
+              </div>
+              <div class="nav-text">
+                {{site.templates.size}}
+              </div>
+            </div>
+            <div class="menu-icon">
+              <i class="fa fa-file-text-o fa-3x"></i>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/alexpsilva/TCC">
+          <div class="menu-item">
+            <div class="text-container">
+              <div class="menu-text">
+                Github
+              </div>
+            </div>
+            <div class="menu-icon">
+              <i class="fa fa-github fa-3x"></i>
+            </div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</div>
