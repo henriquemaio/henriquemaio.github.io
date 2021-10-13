@@ -34,7 +34,10 @@ function move_snake() {
   const head = { x: snake[0].x + dx, y: snake[0].y + dy };
   snake.unshift(head);
 
-  const has_eaten_food = snake[0].x === food_x && snake[0].y === food_y;
+  const has_eaten_food = (snake[0].x >= food_x && snake[0].x <= food_x + 20) && (snake[0].y >= food_y && snake[0].y <= food_y + 20);
+
+  // const has_eaten_food = snake[0].x === food_x && snake[0].y === food_y;
+  
   if (has_eaten_food) {
     score += 10;
     gameSpeed -= 5;
@@ -87,8 +90,8 @@ function random_food(min, max) {
 function drawFood() {
   context.fillStyle = "red";
   context.strokestyle = "black";
-  context.fillRect(food_x, food_y, 10, 10);
-  context.strokeRect(food_x, food_y, 10, 10);
+  context.fillRect(food_x, food_y, 30, 30);
+  context.strokeRect(food_x, food_y, 30, 30);
 }
 
 function gen_food() {
