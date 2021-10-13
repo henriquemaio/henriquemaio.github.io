@@ -1,3 +1,6 @@
+const microphoneBtn = document.querySelector("#microphone");
+const output = document.querySelector("#output");
+
 let dx = 10;
 let dy = 0;
 let score = 0;
@@ -47,51 +50,34 @@ function clearCanvas() {
   context.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-function change_direction(event) {
-  const LEFT_KEY = 37;
-  const RIGHT_KEY = 39;
-  const UP_KEY = 38;
-  const DOWN_KEY = 40;
-
-  const keyPressed = event.keyCode;
-  const goUp = dy === -10;
-  const goDown = dy === 10;
-  const goRight = dx === 10;
-  const goLeft = dx === -10;
-
-  if (keyPressed === LEFT_KEY && !goRight) {
-    dx = -10;
-    dy = 0;
-  }
-
-  if (keyPressed === UP_KEY && !goDown) {
-    dx = 0;
-    dy = -10;
-  }
-
-  if (keyPressed === RIGHT_KEY && !goLeft) {
-    dx = 10;
-    dy = 0;
-  }
-
-  if (keyPressed === DOWN_KEY && !goUp) {
-    dx = 0;
-    dy = 10;
-  }
-}
-
-document.addEventListener("keydown", change_direction);
 
 function has_game_ended() {
   for (let i = 4; i < snake.length; i++) {
     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
   }
+}
+
+function has_hitted_wall() {
   const hitLeftWall = snake[0].x < 0;
   const hitRightWall = snake[0].x > canvas.width - 10;
   const hitToptWall = snake[0].y < 0;
   const hitBottomWall = snake[0].y > canvas.height - 10;
+  
+  if (hitLeftWall) {
+    snake[0].x = canvas.width;
+  }
 
-  return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall;
+  if (hitRightWall) {
+    snake[0].x = -10;
+  }
+
+  if (hitToptWall) {
+    snake[0].y = canvas.height;
+  }
+
+  if (hitBottomWall) {
+    snake[0].y = -10;
+  }
 }
 
 function random_food(min, max) {
@@ -114,8 +100,93 @@ function gen_food() {
   });
 }
 
+function change_direction_by_key(event) {
+  const LEFT_KEY = 37;
+  const RIGHT_KEY = 39;
+  const UP_KEY = 38;
+  const DOWN_KEY = 40;
+
+  const keyPressed = event.keyCode;
+  const goUp = dy === -10;
+  const goDown = dy === 10;
+  const goRight = dx === 10;
+  const goLeft = dx === -10;
+
+  if (keyPressed === LEFT_KEY && !goRight) {
+    move_left();
+  }
+
+  if (keyPressed === UP_KEY && !goDown) {
+    move_north();
+  }
+
+  if (keyPressed === RIGHT_KEY && !goLeft) {
+    move_right();
+  }
+
+  if (keyPressed === DOWN_KEY && !goUp) {
+    move_down();
+  }
+}
+function move_north() {
+  dx = 0;
+  dy = -10;
+}
+
+function move_down() {
+  dx = 0;
+  dy = 10;
+}
+
+function move_right() {
+  dx = 10;
+  dy = 0;
+}
+
+function move_left() {
+  dx = -10;
+  dy = 0;
+}
+
+function change_direction_by_voice(word) {
+  switch (word.toUpperCase()) {
+    case "CIMA":
+    case "ACIMA":
+    case "SIM":
+    case "NORTE":
+      move_north();
+      break;
+    case "BAIXO":
+    case "BAIXA":
+    case "ABAIXO":
+    case "ABAIXA":
+    case "SUL":
+    case "SOU":
+      move_down();
+      break;
+    case "ESQUERDA":
+    case "ESQUERDO":
+    case "LESTE":
+      move_left();
+      break;
+    case "DIREITA":
+    case "DIREITO":
+    case "OESTE":
+      move_right();
+      break;
+    default:
+      break;
+  }
+}
+
 function main() {
-  if (has_game_ended()) return;
+  if (has_game_ended()) {
+    if (confirm(`Você fez ${score} pontos! \n Deseja jogar novamente?`)) {
+      document.location.reload();
+    } 
+    return
+  };
+  has_hitted_wall();
   setTimeout(function onTick() {
     clearCanvas();
     drawFood();
@@ -125,5 +196,25 @@ function main() {
   }, gameSpeed);
 }
 
-main();
-gen_food();
+function start() {
+  const recognition = new webkitSpeechRecognition();
+  recognition.interimResults = true;
+  recognition.lang = "pt-BR";
+  recognition.continuous = true;
+  recognition.start();
+  recognition.onstart = function () {
+    main();
+    gen_food();
+  };
+  
+  recognition.onresult = function (event) {
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const content = event.results[i][0].transcript.trim();
+      output.textContent = content;
+      change_direction_by_voice(content);
+    }
+  };
+}
+
+start();
+document.addEventListener("keydown", change_direction_by_key);

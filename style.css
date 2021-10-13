@@ -11,6 +11,7 @@ body {
   align-items: center;
   flex-direction: column;
   font-family: sans-serif;
+  color: white;
 }
 
 #team {
@@ -37,8 +38,8 @@ body {
       transparent 1px 100%
     );
   background-size: 10px 10px;
-  width: 791px;
-  height: 791px;
+  width: 491px;
+  height: 491px;
   z-index: 1;
 }
 
